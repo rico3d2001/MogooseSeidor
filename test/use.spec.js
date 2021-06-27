@@ -3,7 +3,9 @@ const { insertNewUse,
     endUse,
     findUseByDriverLicenseAndLicensePlate,
     findUseById,
-    getByDriverName } = require('../server/use/useService');
+    getByDriverName,
+    deleteOneUse,
+    countUseByLicensePlate } = require('../server/use/useService');
 
 describe('Utilizacao de automoveis unity tests', async () => {
     describe('#CRUDUtilizacaoAutomovel', () => {
@@ -49,6 +51,7 @@ describe('Utilizacao de automoveis unity tests', async () => {
             const nomeMotorista = 'Maria Flor';
 
             const expectation = [
+                /* 1 */
                 {
                     "placa": "MGF0987",
                     "cor": "Amarelo",
@@ -56,6 +59,8 @@ describe('Utilizacao de automoveis unity tests', async () => {
                     "cnh": "890654356",
                     "nome": "Maria Flor"
                 },
+
+                /* 2 */
                 {
                     "placa": "JVM7879",
                     "cor": "Azul",
@@ -63,12 +68,14 @@ describe('Utilizacao de automoveis unity tests', async () => {
                     "cnh": "55577700021",
                     "nome": "Maria Flor"
                 },
+
+                /* 3 */
                 {
-                    "placa" : "CYZ9087",
-                    "cor" : "Azul",
-                    "marca" : "Fiat",
-                    "cnh" : "55577700021",
-                    "nome" : "Maria Flor"
+                    "placa": "CYZ9087",
+                    "cor": "Azul",
+                    "marca": "Celta",
+                    "cnh": "55577700021",
+                    "nome": "Maria Flor"
                 }];
 
             // Act
@@ -76,7 +83,22 @@ describe('Utilizacao de automoveis unity tests', async () => {
 
             // Assert
             expect(result).to.deep.equal(expectation);
+
         });
+        /*
+                it('APENAS PARA AUXILIAR TESTE - excluir ultima utilização cadastrada', async () => {
+                    //Arrange
+                    placaDocumentToDelete =  "CYZ9087";
+        
+                    // Act
+                    deleteOneUse(placaDocumentToDelete);
+                    const result = await countUseByLicensePlate(placaDocumentToDelete);
+        
+                    // Assert
+                    expect(result).to.equal(0);
+              });
+        */
+
 
     });
 });

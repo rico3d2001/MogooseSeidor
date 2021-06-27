@@ -3,7 +3,8 @@ const { insertNewDriver,
       findDriverByLicense,
       updateOneDriver,
       deleteOneDriver,
-      getByName } = require('../server/motorista/motoristaService');
+      getByName,
+      countDriverByLicense } = require('../server/motorista/motoristaService');
 
 const nodemon = require('nodemon');
 
@@ -71,10 +72,10 @@ describe('Motoristas unity tests', async () => {
 
                   // Act
                   deleteOneDriver(expectation.cnh);
-                  const result = await findDriverByLicense(expectation.cnh);
+                  const result = await countDriverByLicense(expectation.cnh);
 
                   // Assert
-                  //expect(result).to.equal(null);
+                  expect(result).to.equal(0);
             });
 
             it('deve listar os motoristas por nome', async () => {

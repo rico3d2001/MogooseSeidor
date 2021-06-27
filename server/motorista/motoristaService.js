@@ -15,6 +15,11 @@ async function findDriverByLicense(cnh) {
     return await Motoristas.findOne({ cnh })
 }
 
+async function countDriverByLicense(cnh) {
+    return await Motoristas.countDocuments({ cnh })
+}
+
+
 async function updateOneDriver(driver) {
     return await Motoristas.findOneAndUpdate({cnh: driver.cnh},{nome: driver.nome})
 }
@@ -34,7 +39,8 @@ module.exports = {
     findDriverByLicense,
     updateOneDriver,
     deleteOneDriver,
-    getByName
+    getByName,
+    countDriverByLicense
 };
 
 

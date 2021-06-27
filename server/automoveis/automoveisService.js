@@ -32,13 +32,17 @@ async function getByColorAndTradeMark(color, tradeMark) {
     return await Automoveis.find({ cor: color, marca: tradeMark }).lean().exec()
 }
 
+async function countCarByLicensePlate(placa) {
+    return await Automoveis.countDocuments({ placa })
+}
 
 module.exports = {
     getByColorAndTradeMark,
     insertNewCar,
     findCarByLicensePlate,
     updateOneCar,
-    deleteOneCar
+    deleteOneCar,
+    countCarByLicensePlate
 };
 
 

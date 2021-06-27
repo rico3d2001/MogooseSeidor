@@ -37,6 +37,16 @@ async function findUseById(automovel) {
     return await UsoAutomovel.findById(automovel._id)
 }
 
+async function findUseByLicensePlate(placa) {
+    const automovel = await Automoveis.findOne({ placa });
+    return await UsoAutomovel.findOne({idAutomovel: automovel})
+}
+
+async function countUseByLicensePlate(placa) {
+    const automovel = await Automoveis.findOne({ placa });
+    return await UsoAutomovel.countDocuments({idAutomovel: automovel})
+}
+
 async function endUse(uso) {
     return await UsoAutomovel
         .findByIdAndUpdate(uso._id, { dataFim: new Date() });
@@ -89,11 +99,23 @@ async function getByDriverName(name) {
     );
 }
 
+async function deleteOneUse(uso) {
+    return await UsoAutomovel.findOneAndDelete({ uso })
+}
+
+
+
+async function countUseByLicensePlate(placa) {
+    
+    return await UsoAutomovel.countDocuments({ placa })
+}
 
 module.exports = {
     insertNewUse,
     endUse,
     getByDriverName,
     findUseById,
-    findUseByDriverLicenseAndLicensePlate
+    findUseByDriverLicenseAndLicensePlate,
+    deleteOneUse,
+    findUseByLicensePlate
 };

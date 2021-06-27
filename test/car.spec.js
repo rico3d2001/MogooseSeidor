@@ -4,7 +4,8 @@ const { getByColorAndTradeMark,
       insertNewCar, 
       findCarByLicensePlate, 
       updateOneCar, 
-      deleteOneCar } = require('../server/automoveis/automoveisService');
+      deleteOneCar,
+      countCarByLicensePlate } = require('../server/automoveis/automoveisService');
 const UUID = require('uuid-js');
 
 describe('Automoveis unity tests', async () => {
@@ -67,21 +68,17 @@ describe('Automoveis unity tests', async () => {
             it('deve excluir um automóvel cadastrado', async () => {
 
                   //Arrange
-                  const expectation = {
-                        placa: 'RRP2001',
-                        marca: "Fox",
-                        cor: "Branca"
-                  };
+                  const placa = 'RRP2001';
 
                   // Act
-                  deleteOneCar(expectation.placa);
-                  const result = await findCarByLicensePlate(expectation.placa);
+                  deleteOneCar(placa);
+                  const result = await countCarByLicensePlate(placa);
 
                   // Assert
-                  //expect(result).to.equal(null);
+                  expect(result).to.equal(0);
 
             });
-/*
+
             it('deve listar os automóveis por cor e marca', async () => {
 
                   //Arrange
@@ -105,7 +102,7 @@ describe('Automoveis unity tests', async () => {
                   expect(result).to.have.lengthOf(2);
 
             });
-            */
+            
       });
 
 });
