@@ -4,8 +4,8 @@ const { insertNewUse,
     findUseByDriverLicenseAndLicensePlate,
     findUseById,
     getByDriverName,
-    deleteOneUse,
-    countUseByLicensePlate } = require('../server/use/useService');
+    deleteOneUseByMotivo,
+    countUseByMotivo } = require('../server/use/useService');
 
 describe('Utilizacao de automoveis unity tests', async () => {
     describe('#CRUDUtilizacaoAutomovel', () => {
@@ -85,19 +85,18 @@ describe('Utilizacao de automoveis unity tests', async () => {
             expect(result).to.deep.equal(expectation);
 
         });
-        /*
-                it('APENAS PARA AUXILIAR TESTE - excluir ultima utilização cadastrada', async () => {
-                    //Arrange
-                    placaDocumentToDelete =  "CYZ9087";
-        
-                    // Act
-                    deleteOneUse(placaDocumentToDelete);
-                    const result = await countUseByLicensePlate(placaDocumentToDelete);
-        
-                    // Assert
-                    expect(result).to.equal(0);
-              });
-        */
+
+        it('APENAS PARA AUXILIAR TESTE - excluir ultima utilização cadastrada', async () => {
+            //Arrange
+            motivo = "pega";
+            // Act
+            deleteOneUseByMotivo(motivo);
+            const result = await countUseByMotivo(motivo);
+
+            // Assert
+            expect(result).to.equal(0);
+        });
+
 
 
     });

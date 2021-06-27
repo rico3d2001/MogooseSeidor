@@ -99,15 +99,14 @@ async function getByDriverName(name) {
     );
 }
 
-async function deleteOneUse(uso) {
-    return await UsoAutomovel.findOneAndDelete({ uso })
+async function deleteOneUseByMotivo(motivo) {
+    return await UsoAutomovel.findOneAndDelete({ motivo });
 }
 
 
 
-async function countUseByLicensePlate(placa) {
-    
-    return await UsoAutomovel.countDocuments({ placa })
+async function countUseByMotivo(motivo) {
+    return await UsoAutomovel.countDocuments({motivo});
 }
 
 module.exports = {
@@ -116,6 +115,7 @@ module.exports = {
     getByDriverName,
     findUseById,
     findUseByDriverLicenseAndLicensePlate,
-    deleteOneUse,
-    findUseByLicensePlate
+    deleteOneUseByMotivo,
+    findUseByLicensePlate,
+    countUseByMotivo
 };
