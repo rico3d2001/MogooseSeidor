@@ -9,7 +9,8 @@ const usoAutomovelSchema = new mongoose.Schema({
   dataFim: Date,
   motivo: String,
   idAutomovel: {type: mongoose.Schema.Types.ObjectId, ref: "Automoveis"},
-  idMotorista: {type: mongoose.Schema.Types.ObjectId, ref: "Motoristas"}
+  idMotorista: {type: mongoose.Schema.Types.ObjectId, ref: "Motoristas"},
+  finalizado: Boolean
 }, 
 { collection: 'UsoAutomovel' });
 

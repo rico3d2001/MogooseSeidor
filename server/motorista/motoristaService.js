@@ -15,8 +15,8 @@ async function findDriverByLicense(cnh) {
     return await Motoristas.findOne({ cnh })
 }
 
-async function countDriverByLicense(cnh) {
-    return await Motoristas.countDocuments({ cnh })
+async function countAll() {
+    return await Motoristas.countDocuments()
 }
 
 
@@ -31,6 +31,18 @@ async function deleteOneDriver(cnh) {
 
 async function getByName(name) {
     return await Motoristas.find({ nome: name }).lean().exec()
+    .then(x => x.map(({ cnh, nome }) => ({
+        cnh,
+        nome
+      })));
+}
+
+async function getAll() {
+    return await Motoristas.find().lean().exec()
+    .then(x => x.map(({ cnh, nome }) => ({
+        cnh,
+        nome
+      })));
 }
 
 
@@ -40,7 +52,8 @@ module.exports = {
     updateOneDriver,
     deleteOneDriver,
     getByName,
-    countDriverByLicense
+    countAll,
+    getAll
 };
 
 

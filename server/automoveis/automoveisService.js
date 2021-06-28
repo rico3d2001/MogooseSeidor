@@ -28,13 +28,31 @@ async function deleteOneCar(placa) {
     return await Automoveis.findOneAndDelete({ placa })
 };
 
-async function getByColorAndTradeMark(color, tradeMark) {
-    return await Automoveis.find({ cor: color, marca: tradeMark }).lean().exec()
+async function getByColorAndTradeMark(cor, marca) {
+    return await Automoveis.find({ cor, marca })
+       .lean().exec()
+       .then(x => x.map(({ placa, marca, cor }) => ({
+        placa,
+        marca,
+        cor
+      })));
 }
 
-async function countCarByLicensePlate(placa) {
-    return await Automoveis.countDocuments({ placa })
+async function countAll() {
+    return await Automoveis.countDocuments();
 }
+
+
+
+async function getAll() {
+    return await Automoveis.find().lean().exec()
+    .then(x => x.map(({ placa, marca, cor }) => ({
+        placa,
+        marca,
+        cor
+      })));
+}
+
 
 module.exports = {
     getByColorAndTradeMark,
@@ -42,7 +60,8 @@ module.exports = {
     findCarByLicensePlate,
     updateOneCar,
     deleteOneCar,
-    countCarByLicensePlate
+    countAll,
+    getAll
 };
 
 

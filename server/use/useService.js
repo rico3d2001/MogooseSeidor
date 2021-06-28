@@ -20,13 +20,14 @@ async function insertNewUse(placa, cnh, motivo) {
         idMotorista: motorista._id,
         dataInicio: data,
         dataFim: data,
-        motivo: motivo
+        motivo: motivo,
+        finalizado: false
     });
     return await uso.save();
 }
 
 
-async function findUseByDriverLicenseAndLicensePlate(cnh, placa) {
+async function findUseByDriverLicenseAndLicensePlate(placa, cnh) {
     const automovel = await Automoveis.findOne({ placa });
     const motorista = await Motoristas.findOne({ cnh });
     return await UsoAutomovel
@@ -47,13 +48,17 @@ async function countUseByLicensePlate(placa) {
     return await UsoAutomovel.countDocuments({idAutomovel: automovel})
 }
 
-async function endUse(uso) {
+async function endUse(placa, cnh) {
+    const automovel = await Automoveis.findOne({ placa });
+    const motorista = await Motoristas.findOne({ cnh });
+    const uso = await UsoAutomovel
+        .findOne({ idAutomovel: automovel._id, idMotorista: motorista._id });
     return await UsoAutomovel
-        .findByIdAndUpdate(uso._id, { dataFim: new Date() });
+        .findByIdAndUpdate(uso._id, { dataFim: new Date(), finalizado: true });
 }
 
 
-async function getByDriverName(name) {
+async function getByDriverName(nomeParametro) {
     return await UsoAutomovel.aggregate(
         [
             {
@@ -79,7 +84,7 @@ async function getByDriverName(name) {
                 $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$autos', 0] }, "$$ROOT"] } }
             },
             {
-                $match: { nome: 'Maria Flor' }
+                $match: { nome: nomeParametro }
             },
             {
                 $sort: { nome: -1 }
@@ -92,21 +97,34 @@ async function getByDriverName(name) {
                     cnh: 1,
                     placa: 1,
                     cor: 1,
-                    marca: 1
+                    marca: 1,
+                    finalizado: 1
                 }
             }
         ]
     );
 }
 
-async function deleteOneUseByMotivo(motivo) {
-    return await UsoAutomovel.findOneAndDelete({ motivo });
+async function deleteOneUse(placa, cnh) {
+    const automovel = await Automoveis.findOne({ placa });
+    const motorista = await Motoristas.findOne({ cnh });
+    return await UsoAutomovel
+        .findOneAndDelete({ idAutomovel: automovel._id, idMotorista: motorista._id });
+  
 }
-
+  
 
 
 async function countUseByMotivo(motivo) {
     return await UsoAutomovel.countDocuments({motivo});
+}
+
+async function getAll() {
+    return await UsoAutomovel.find().lean().exec()
+    .then(x => x.map(({ motivo, finalizado }) => ({
+        motivo,
+        finalizado
+      })));
 }
 
 module.exports = {
@@ -115,7 +133,8 @@ module.exports = {
     getByDriverName,
     findUseById,
     findUseByDriverLicenseAndLicensePlate,
-    deleteOneUseByMotivo,
+    deleteOneUse,
     findUseByLicensePlate,
-    countUseByMotivo
+    countUseByMotivo,
+    getAll
 };
