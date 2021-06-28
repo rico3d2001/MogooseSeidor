@@ -16,7 +16,6 @@ router.get('/car/:placa', async function (req, res) {
 router.post('/car', async function (req, res) {
     const post = req.boby;
     automoveisService.insertNewCar(post)
-    .then(x => res.json(x))
     .catch('Erro sys')
 });
 
