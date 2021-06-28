@@ -3,22 +3,32 @@ const router = express.Router();
 var automoveisService = require('./automoveisService');
 
 router.get('/cars', async function (req, res) {
-    // /:marca/:cor
     automoveisService.getAll()
         .then(x => res.json(x))
 });
-router.get('/car/:id', async function (req, res) {
 
+router.get('/car/:placa', async function (req, res) {
+    automoveisService.findCarByLicensePlate(req.params.placa)
+    .then(x => res.json(x))
+    .catch('Erro sys')
 });
+
 router.post('/car', async function (req, res) {
     const post = req.boby;
-    automoveisService.insertNewCar(post);
+    automoveisService.insertNewCar(post)
+    .then(x => res.json(x))
+    .catch('Erro sys')
 });
-router.put('/car:id', async function (req, res) {
 
+router.put('/car', async function (req, res) {
+    const post = req.boby;
+    automoveisService.updateOneCar(post)
+    .catch('Erro sys')
 });
-router.delete('/car:id', async function (req, res) {
 
+router.delete('/car:placa', async function (req, res) {
+    automoveisService.deleteOneCar(req.params.placa)
+    .catch('Erro sys')
 });
 
 module.exports = router;
