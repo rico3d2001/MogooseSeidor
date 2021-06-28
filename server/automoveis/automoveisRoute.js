@@ -2,22 +2,23 @@ const express = require('express');
 const router = express.Router();
 var automoveisService = require('./automoveisService');
 
-router.get('/cars', async function(req, res){
+router.get('/cars', async function (req, res) {
     // /:marca/:cor
     automoveisService.getAll()
-    .then(x => res.json(x))
+        .then(x => res.json(x))
 });
-router.get('/car/:id', async function(req, res){
-    
+router.get('/car/:id', async function (req, res) {
+
 });
-router.post('/car', async function(req, res){
-    res.send("Ola");
+router.post('/car', async function (req, res) {
+    const post = req.boby;
+    automoveisService.insertNewCar(post);
 });
-router.put('/car:id', async function(req, res){
-    
+router.put('/car:id', async function (req, res) {
+
 });
-router.delete('/car:id', async function(req, res){
-    
+router.delete('/car:id', async function (req, res) {
+
 });
 
 module.exports = router;
