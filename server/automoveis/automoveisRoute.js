@@ -5,6 +5,7 @@ var automoveisService = require('./automoveisService');
 router.get('/cars', async function (req, res) {
     automoveisService.getAll()
         .then(x => res.json(x))
+        .catch('Erro sys')
 });
 
 router.get('/car/:placa', async function (req, res) {
